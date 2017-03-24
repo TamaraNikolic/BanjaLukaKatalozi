@@ -7,12 +7,10 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -46,23 +44,23 @@ public class NotificationServices extends Service {
         // Let it continue running until it is stopped.
         makeJsonObjectRequest();
         mSharedPrefs = getSharedPreferences(Constants.NAME, Context.MODE_PRIVATE);
-        delay = mSharedPrefs.getLong("time",0);
+        delay = mSharedPrefs.getLong("time", 0);
         handler = new Handler();
-        runnable =  new Runnable() {
+        runnable = new Runnable() {
             public void run() {
                 makeJsonObjectRequest();
                 handler.postDelayed(this, delay);
             }
         };
         handler = new Handler();
-            handler.postDelayed(runnable,delay);
+        handler.postDelayed(runnable, delay);
         return START_STICKY;
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if(handler != null) {
+        if (handler != null) {
             handler.removeCallbacks(runnable);
         }
     }
@@ -82,9 +80,15 @@ public class NotificationServices extends Service {
                     String message = notification.getString("message");
 
 
-                        final NotificationItem notificationItem = new NotificationItem(date, title, message);
+                    final NotificationItem notificationItem = new NotificationItem(date, title, message);
 
-                                createNotification(notificationItem);
+                    if(!notificationItem.date.equalsIgnoreCase(mSharedPrefs.getString("date",""))) {
+                        createNotification(notificationItem);
+                    }
+
+                    SharedPreferences.Editor editor = mSharedPrefs.edit();
+                    editor.putString("date", date);
+                    editor.apply();
 
                 } catch (JSONException e) {
                     e.printStackTrace();

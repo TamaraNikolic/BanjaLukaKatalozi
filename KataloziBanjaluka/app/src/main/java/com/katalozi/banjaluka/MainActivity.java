@@ -1,11 +1,10 @@
 package com.katalozi.banjaluka;
 
-import android.app.Notification;
+import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -13,23 +12,12 @@ import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 
 public class MainActivity extends AppCompatActivity {
 
     private WebView mWebVIew;
     private ImageView mIvNotificationSettings;
+    private SharedPreferences mSharedPrefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +28,18 @@ public class MainActivity extends AppCompatActivity {
         addListeners();
         setUpWebView();
 
+        if (mSharedPrefs.getLong("time",0) == 0) {
+            setUpTime(Constants.day);
+            startService(new Intent(getBaseContext(), NotificationServices.class));
+        }
+
     }
 
 
     private void initComponents() {
         mWebVIew = (WebView) findViewById(R.id.webView);
         mIvNotificationSettings = (ImageView)findViewById(R.id.setting);
+        mSharedPrefs = getSharedPreferences(Constants.NAME, Context.MODE_PRIVATE);
     }
 
     private void addListeners() {
@@ -92,5 +86,9 @@ public class MainActivity extends AppCompatActivity {
             super.onBackPressed();
         }
     }
-
+    private void setUpTime(long time) {
+        SharedPreferences.Editor editor = mSharedPrefs.edit();
+        editor.putLong("time",time);
+        editor.apply();
+    }
 }
