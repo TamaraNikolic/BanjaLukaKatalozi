@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         addListeners();
         setUpWebView();
 
-        if (mSharedPrefs.getLong("time",0) == 0) {
+        if (mSharedPrefs.getLong("time", 0) == 0) {
             setUpTime(Constants.day);
             startService(new Intent(getBaseContext(), NotificationServices.class));
         }
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initComponents() {
         mWebVIew = (WebView) findViewById(R.id.webView);
-        mIvNotificationSettings = (ImageView)findViewById(R.id.setting);
+        mIvNotificationSettings = (ImageView) findViewById(R.id.setting);
         mSharedPrefs = getSharedPreferences(Constants.NAME, Context.MODE_PRIVATE);
     }
 
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         mIvNotificationSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),SettingActivity.class));
+                startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
             }
         });
     }
@@ -86,9 +86,10 @@ public class MainActivity extends AppCompatActivity {
             super.onBackPressed();
         }
     }
+
     private void setUpTime(long time) {
         SharedPreferences.Editor editor = mSharedPrefs.edit();
-        editor.putLong("time",time);
+        editor.putLong("time", time);
         editor.apply();
     }
 }

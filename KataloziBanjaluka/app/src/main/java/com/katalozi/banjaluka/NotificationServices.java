@@ -10,7 +10,6 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -45,6 +44,7 @@ public class NotificationServices extends Service {
         makeJsonObjectRequest();
         mSharedPrefs = getSharedPreferences(Constants.NAME, Context.MODE_PRIVATE);
         delay = mSharedPrefs.getLong("time", 0);
+        
         handler = new Handler();
         runnable = new Runnable() {
             public void run() {
@@ -52,6 +52,7 @@ public class NotificationServices extends Service {
                 handler.postDelayed(this, delay);
             }
         };
+
         handler = new Handler();
         handler.postDelayed(runnable, delay);
         return START_STICKY;
@@ -82,7 +83,7 @@ public class NotificationServices extends Service {
 
                     final NotificationItem notificationItem = new NotificationItem(date, title, message);
 
-                    if(!notificationItem.date.equalsIgnoreCase(mSharedPrefs.getString("date",""))) {
+                    if (!notificationItem.date.equalsIgnoreCase(mSharedPrefs.getString("date", ""))) {
                         createNotification(notificationItem);
                     }
 
@@ -110,15 +111,14 @@ public class NotificationServices extends Service {
 
         // Build notification
         // Actions are just fake
-        Notification noti = new Notification.Builder(this)
+        Notification notification = new Notification.Builder(this)
                 .setContentTitle(notificationItem.title)
                 .setContentText(notificationItem.message).setSmallIcon(R.mipmap.ic_launcher)
                 .setContentIntent(pIntent).build();
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         // hide the notification after its selected
-        noti.flags |= Notification.FLAG_AUTO_CANCEL;
+        notification.flags |= Notification.FLAG_AUTO_CANCEL;
 
-        notificationManager.notify(0, noti);
-        Log.e("tamara", "radi ");
+        notificationManager.notify(0, notification);
     }
 }

@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-public class SettingActivity extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity {
 
     private TextView day, week, month, never;
     private SharedPreferences mSharedPrefs;
@@ -26,17 +26,18 @@ public class SettingActivity extends AppCompatActivity {
     private void initComponents() {
         mSharedPrefs = getSharedPreferences(Constants.NAME, Context.MODE_PRIVATE);
 
-        day = (TextView)findViewById(R.id.day);
-        week = (TextView)findViewById(R.id.week);
-        month = (TextView)findViewById(R.id.month);
-        never = (TextView)findViewById(R.id.never);
-        if (mSharedPrefs.getLong("time",0) == Constants.day) {
+        day = (TextView) findViewById(R.id.day);
+        week = (TextView) findViewById(R.id.week);
+        month = (TextView) findViewById(R.id.month);
+        never = (TextView) findViewById(R.id.never);
+
+        if (mSharedPrefs.getLong("time", 0) == Constants.day) {
             day.setTextColor(getResources().getColor(R.color.colorPrimary));
-        } else  if (mSharedPrefs.getLong("time",0) == Constants.week) {
+        } else if (mSharedPrefs.getLong("time", 0) == Constants.week) {
             week.setTextColor(getResources().getColor(R.color.colorPrimary));
-        } else  if (mSharedPrefs.getLong("time",0) == Constants.month) {
+        } else if (mSharedPrefs.getLong("time", 0) == Constants.month) {
             month.setTextColor(getResources().getColor(R.color.colorPrimary));
-        } else if (mSharedPrefs.getLong("time",0) ==1) {
+        } else if (mSharedPrefs.getLong("time", 0) == 1) {
             never.setTextColor(getResources().getColor(R.color.colorPrimary));
         }
 
@@ -95,9 +96,10 @@ public class SettingActivity extends AppCompatActivity {
             }
         });
     }
+
     private void setUpTime(long time) {
         SharedPreferences.Editor editor = mSharedPrefs.edit();
-        editor.putLong("time",time);
+        editor.putLong("time", time);
         editor.apply();
     }
 }

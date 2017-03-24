@@ -1,8 +1,5 @@
 package com.katalozi.banjaluka;
 
-/**
- * Created by tamara.nikolic on 3/24/2017.
- */
 
 public class NotificationItem {
     public String date, title, message;
@@ -15,6 +12,6 @@ public class NotificationItem {
 
     @Override
     public String toString() {
-        return "Date "+date+" title "+title + " message "+message;
+        return "Date " + date + " title " + title + " message " + message;
     }
 }
