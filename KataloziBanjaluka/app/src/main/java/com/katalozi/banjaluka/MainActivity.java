@@ -3,6 +3,7 @@ package com.katalozi.banjaluka;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -18,6 +19,11 @@ public class MainActivity extends AppCompatActivity {
     private WebView mWebVIew;
     private ImageView mIvNotificationSettings;
     private SharedPreferences mSharedPrefs;
+
+    @Override
+    public void onConfigurationChanged(Configuration config) {
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

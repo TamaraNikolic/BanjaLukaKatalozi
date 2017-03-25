@@ -44,7 +44,7 @@ public class NotificationServices extends Service {
         makeJsonObjectRequest();
         mSharedPrefs = getSharedPreferences(Constants.NAME, Context.MODE_PRIVATE);
         delay = mSharedPrefs.getLong("time", 0);
-        
+
         handler = new Handler();
         runnable = new Runnable() {
             public void run() {
@@ -113,7 +113,7 @@ public class NotificationServices extends Service {
         // Actions are just fake
         Notification notification = new Notification.Builder(this)
                 .setContentTitle(notificationItem.title)
-                .setContentText(notificationItem.message).setSmallIcon(R.mipmap.ic_launcher)
+                .setContentText(notificationItem.message).setSmallIcon(R.mipmap.ikonica)
                 .setContentIntent(pIntent).build();
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         // hide the notification after its selected

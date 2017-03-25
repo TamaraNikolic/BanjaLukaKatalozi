@@ -3,6 +3,7 @@ package com.katalozi.banjaluka;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +14,10 @@ public class SettingsActivity extends AppCompatActivity {
     private TextView day, week, month, never;
     private SharedPreferences mSharedPrefs;
 
+    @Override
+    public void onConfigurationChanged(Configuration config) {
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

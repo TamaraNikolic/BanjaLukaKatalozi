@@ -8,20 +8,37 @@
     tools:context="com.katalozi.banjaluka.SettingsActivity">
 
     <TextView
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:text="Obavještenja o novim katalozima"
+        android:textStyle="bold"
+        android:textColor="#000000"/>
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:text="Notifikacije želim da primam: "
+        android:text="Ukoliko želite da Vam šaljemo obavještenja svaki put kad se pojave nove akcije i sniženja, označite koliko često želite primati obavještenja. U slučaju da ne želite primati obavještenja o katalozima izaberite zadnju opciju. "
+     android:textSize="12sp"
         android:textColor="#000000"
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginBottom="20dp" />
+
+    <TextView
+        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="Obavještenja želim da primam:"
+        android:textColor="#000000"/>
 
     <TextView
         android:id="@+id/day"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:text="Jednom dnevno"
+        android:text="- Jedanput dnevno"
         android:textColor="#000000"/>
 
     <TextView
@@ -29,7 +46,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:text="Jednom nedeljno"
+        android:text="- Jedanput nedjeljno"
         android:textColor="#000000"/>
 
     <TextView
@@ -37,7 +54,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:text="Jednom mesečno"
+        android:text="- Jedanput mjesečno"
         android:textColor="#000000"/>
 
     <TextView
@@ -45,7 +62,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:text="Ne želim da primam notifikacije"
+        android:text="- Ne želim primati obavještenja"
         android:textColor="#000000"/>
 
 </LinearLayout>
