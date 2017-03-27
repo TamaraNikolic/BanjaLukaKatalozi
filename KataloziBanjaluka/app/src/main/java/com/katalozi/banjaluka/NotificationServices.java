@@ -113,7 +113,7 @@ public class NotificationServices extends Service {
         // Actions are just fake
         Notification notification = new Notification.Builder(this)
                 .setContentTitle(notificationItem.title)
-                .setContentText(notificationItem.message).setSmallIcon(R.mipmap.ikonica)
+                .setContentText(notificationItem.message).setSmallIcon(R.drawable.ikonica_white)
                 .setContentIntent(pIntent).build();
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         // hide the notification after its selected
