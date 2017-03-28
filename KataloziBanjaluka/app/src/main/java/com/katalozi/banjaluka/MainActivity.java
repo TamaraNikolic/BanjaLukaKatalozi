@@ -14,6 +14,16 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * The MainActivity is main class in this application. There is load WebView and shown all messages to users.
  */
@@ -58,7 +68,10 @@ public class MainActivity extends AppCompatActivity implements ConnectivityRecei
         //check version of application
         if (mSharedPrefs.getBoolean("change", false)) {
             MessageFragment messageFragment = new MessageFragment();
-            messageFragment.show(getSupportFragmentManager(), "sd");
+            messageFragment.show(getSupportFragmentManager(), "katalog");
+            SharedPreferences.Editor editor = mSharedPrefs.edit();
+            editor.putBoolean("change",false);
+            editor.apply();
         }
     }
 
@@ -137,6 +150,7 @@ public class MainActivity extends AppCompatActivity implements ConnectivityRecei
      */
     private void showAlert(boolean isConnected) {
         if (isConnected) {
+            makeVersionRequest();
         } else {
             new AlertDialog.Builder(this)
                     .setTitle("Upozorenje:")
@@ -162,5 +176,38 @@ public class MainActivity extends AppCompatActivity implements ConnectivityRecei
     @Override
     public void onNetworkConnectionChanged(boolean isConnected) {
         showAlert(isConnected);
+    }
+    /**
+     * Check if new version of application is available.
+     */
+    private void makeVersionRequest() {
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        StringRequest jsonObjReq = new StringRequest(Request.Method.GET,
+                Constants.NOTIFICATION_URL, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject ob = new JSONObject(response);
+                    JSONObject notification = ob.getJSONObject("notification");
+                    String version = notification.getString("verzija");
+
+                    if (!mSharedPrefs.getString("version", "").equalsIgnoreCase(version)) {
+                        SharedPreferences.Editor editor = mSharedPrefs.edit();
+                        editor.putBoolean("change", true);
+                        editor.putString("version", version);
+                        editor.apply();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+            }
+        });
+        requestQueue.add(jsonObjReq);
     }
 }

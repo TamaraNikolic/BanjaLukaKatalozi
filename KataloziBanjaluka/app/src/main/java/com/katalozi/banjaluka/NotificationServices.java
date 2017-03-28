@@ -45,14 +45,14 @@ public class NotificationServices extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         // Let it continue running until it is stopped.
-        makeJsonObjectRequest();
+        makeNotificationObjectRequest();
         mSharedPrefs = getSharedPreferences(Constants.NAME, Context.MODE_PRIVATE);
         delay = mSharedPrefs.getLong("time", 0);
         //make new thread and constantly make json object, deley is set by user (day,week,month or never)
         handler = new Handler();
         runnable = new Runnable() {
             public void run() {
-                makeJsonObjectRequest();
+                makeNotificationObjectRequest();
                 handler.postDelayed(this, delay);
             }
         };
@@ -74,7 +74,7 @@ public class NotificationServices extends Service {
     /**
      * Make networking call and parese JSON into notification object, also check if new version of application is available.
      */
-    private void makeJsonObjectRequest() {
+    private void makeNotificationObjectRequest() {
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         StringRequest jsonObjReq = new StringRequest(Request.Method.GET,
                 Constants.NOTIFICATION_URL, new Response.Listener<String>() {
