@@ -79,7 +79,14 @@ public class NotificationServices extends Service {
                     String date = notification.getString("date");
                     String title = notification.getString("title");
                     String message = notification.getString("message");
+                    String version = notification.getString("verzija");
 
+                    if (!mSharedPrefs.getString("version","").equalsIgnoreCase(version)) {
+                        SharedPreferences.Editor editor = mSharedPrefs.edit();
+                        editor.putBoolean("change", true);
+                        editor.putString("version", version);
+                        editor.apply();
+                    }
 
                     final NotificationItem notificationItem = new NotificationItem(date, title, message);
 

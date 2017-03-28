@@ -7,22 +7,19 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.app.FragmentManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 
-import com.facebook.network.connectionclass.ConnectionQuality;
-
 
 public class MainActivity extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener {
     private WebView mWebVIew;
     private ImageView mIvNotificationSettings;
     private SharedPreferences mSharedPrefs;
-    private ConnectionQuality mConnectionClass = ConnectionQuality.UNKNOWN;
 
     @Override
     public void onConfigurationChanged(Configuration config) {
@@ -51,6 +48,11 @@ public class MainActivity extends AppCompatActivity implements ConnectivityRecei
         mWebVIew = (WebView) findViewById(R.id.webView);
         mIvNotificationSettings = (ImageView) findViewById(R.id.setting);
         mSharedPrefs = getSharedPreferences(Constants.NAME, Context.MODE_PRIVATE);
+
+        //   if(mSharedPrefs.getBoolean("change",false)) {
+        MessageFragment messageFragment = new MessageFragment();
+        messageFragment.show(getSupportFragmentManager(), "sd");
+        //  }
     }
 
     private void addListeners() {
@@ -101,13 +103,14 @@ public class MainActivity extends AppCompatActivity implements ConnectivityRecei
         editor.putLong("time", time);
         editor.apply();
     }
+
     private void checkConnection() {
         boolean isConnected = ConnectivityReceiver.isConnected();
-        showSnack(isConnected);
+        showAlert(isConnected);
     }
 
     // Showing the status in Snackbar
-    private void showSnack(boolean isConnected) {
+    private void showAlert(boolean isConnected) {
         if (isConnected) {
         } else {
             new AlertDialog.Builder(this)
@@ -133,6 +136,6 @@ public class MainActivity extends AppCompatActivity implements ConnectivityRecei
 
     @Override
     public void onNetworkConnectionChanged(boolean isConnected) {
-        showSnack(isConnected);
+        showAlert(isConnected);
     }
 }
