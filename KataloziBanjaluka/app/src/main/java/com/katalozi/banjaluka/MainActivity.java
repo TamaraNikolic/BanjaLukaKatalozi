@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.app.FragmentManager;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebSettings;
@@ -15,12 +14,16 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 
+/**
+ * The MainActivity is main class in this application. There is load WebView and shown all messages to users.
+ */
 
 public class MainActivity extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener {
     private WebView mWebVIew;
     private ImageView mIvNotificationSettings;
     private SharedPreferences mSharedPrefs;
 
+    // spplication will working if orientation of screen is changed
     @Override
     public void onConfigurationChanged(Configuration config) {
 
@@ -30,12 +33,14 @@ public class MainActivity extends AppCompatActivity implements ConnectivityRecei
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         checkConnection();
 
         initComponents();
         addListeners();
         setUpWebView();
 
+        // if application is running for the fist time or do not have set time for notification set it on daily.
         if (mSharedPrefs.getLong("time", 0) == 0) {
             setUpTime(Constants.day);
             startService(new Intent(getBaseContext(), NotificationServices.class));
@@ -43,18 +48,23 @@ public class MainActivity extends AppCompatActivity implements ConnectivityRecei
 
     }
 
-
+    /**
+     * init of all View components in this class and check of version saved in memory, if version changed show alert.
+     */
     private void initComponents() {
         mWebVIew = (WebView) findViewById(R.id.webView);
         mIvNotificationSettings = (ImageView) findViewById(R.id.setting);
         mSharedPrefs = getSharedPreferences(Constants.NAME, Context.MODE_PRIVATE);
-
-        //   if(mSharedPrefs.getBoolean("change",false)) {
-        MessageFragment messageFragment = new MessageFragment();
-        messageFragment.show(getSupportFragmentManager(), "sd");
-        //  }
+        //check version of application
+        if (mSharedPrefs.getBoolean("change", false)) {
+            MessageFragment messageFragment = new MessageFragment();
+            messageFragment.show(getSupportFragmentManager(), "sd");
+        }
     }
 
+    /**
+     * On click listeners on view components
+     */
     private void addListeners() {
         mIvNotificationSettings.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,6 +74,9 @@ public class MainActivity extends AppCompatActivity implements ConnectivityRecei
         });
     }
 
+    /**
+     * seting up webView and webClient into application
+     */
     private void setUpWebView() {
         WebSettings settings = mWebVIew.getSettings();
         settings.setJavaScriptEnabled(true);
@@ -72,7 +85,6 @@ public class MainActivity extends AppCompatActivity implements ConnectivityRecei
 
         mWebVIew.setWebViewClient(new WebViewClient() {
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                //  Log.i(TAG, "Processing webview url click...");
                 view.loadUrl(url);
                 return true;
             }
@@ -89,6 +101,7 @@ public class MainActivity extends AppCompatActivity implements ConnectivityRecei
 
     }
 
+    // if we click on webView and open new page, backbutton will trun us back.
     @Override
     public void onBackPressed() {
         if (mWebVIew.canGoBack()) {
@@ -98,18 +111,30 @@ public class MainActivity extends AppCompatActivity implements ConnectivityRecei
         }
     }
 
+    /**
+     * set time for notifications
+     *
+     * @param time
+     */
     private void setUpTime(long time) {
         SharedPreferences.Editor editor = mSharedPrefs.edit();
         editor.putLong("time", time);
         editor.apply();
     }
 
+    /**
+     * Check network state - on/off
+     */
     private void checkConnection() {
         boolean isConnected = ConnectivityReceiver.isConnected();
         showAlert(isConnected);
     }
 
-    // Showing the status in Snackbar
+    /**
+     * Show alert in case of lose internet
+     *
+     * @param isConnected
+     */
     private void showAlert(boolean isConnected) {
         if (isConnected) {
         } else {

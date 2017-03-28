@@ -14,7 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * Created by tamara on 3/28/17.
+ * Fragment for show alert to user when version is changed
  */
 
 public class MessageFragment extends DialogFragment {
@@ -24,10 +24,12 @@ public class MessageFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_fragment_layout, container, false);
 
+        // set up all view components and their listeners.
         TextView mTvFacebook = (TextView) view.findViewById(R.id.textView_facebook);
         mTvFacebook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //start activity with facebook intent and close dialog.
                 startActivity(getOpenFacebookIntent(getActivity()));
                 dismiss();
             }
@@ -37,6 +39,7 @@ public class MessageFragment extends DialogFragment {
         mTvEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // send email window open and close dialog
                 sendEmail();
                 dismiss();
             }
@@ -46,6 +49,7 @@ public class MessageFragment extends DialogFragment {
         mTvPhone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // new call with phone number for more info
                 Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "Your Phone_number"));
                 startActivity(intent);
                 dismiss();
@@ -56,6 +60,7 @@ public class MessageFragment extends DialogFragment {
         mTvGooglePlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // open URL on Google Play and close dialog
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.GOOGLE_PLAY)));
                 dismiss();
             }
@@ -64,6 +69,12 @@ public class MessageFragment extends DialogFragment {
         return view;
     }
 
+    /**
+     * Open facebook page
+     *
+     * @param context
+     * @return intent which will be started
+     */
     public static Intent getOpenFacebookIntent(Context context) {
 
         try {
@@ -73,7 +84,11 @@ public class MessageFragment extends DialogFragment {
             return new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.FACEBOOK));
         }
     }
-    private void sendEmail(){
+
+    /**
+     * Send email for more info. Add to: and subject:.
+     */
+    private void sendEmail() {
 
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
         emailIntent.setData(Uri.parse("mailto:" + Constants.EMAIL));
@@ -83,7 +98,7 @@ public class MessageFragment extends DialogFragment {
         try {
             startActivity(Intent.createChooser(emailIntent, "Send email using..."));
         } catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(getActivity().getApplicationContext(),"Email nije poslat",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity().getApplicationContext(), "Email nije poslat", Toast.LENGTH_SHORT).show();
         }
 
     }

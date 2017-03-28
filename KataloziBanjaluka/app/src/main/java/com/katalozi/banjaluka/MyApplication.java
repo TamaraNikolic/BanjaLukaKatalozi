@@ -4,6 +4,7 @@ import android.app.Application;
 
 /**
  * Created by tamara on 3/27/17.
+ * Extend Application class and add method for connectivity listener.
  */
 public class MyApplication extends Application {
 

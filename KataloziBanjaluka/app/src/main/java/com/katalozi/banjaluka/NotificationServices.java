@@ -21,6 +21,10 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * Service which make notifications based on JSON
+ */
+
 public class NotificationServices extends Service {
 
     private Handler handler;
@@ -44,7 +48,7 @@ public class NotificationServices extends Service {
         makeJsonObjectRequest();
         mSharedPrefs = getSharedPreferences(Constants.NAME, Context.MODE_PRIVATE);
         delay = mSharedPrefs.getLong("time", 0);
-
+        //make new thread and constantly make json object, deley is set by user (day,week,month or never)
         handler = new Handler();
         runnable = new Runnable() {
             public void run() {
@@ -58,6 +62,7 @@ public class NotificationServices extends Service {
         return START_STICKY;
     }
 
+    // if service is stoped stop running thread
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -66,6 +71,9 @@ public class NotificationServices extends Service {
         }
     }
 
+    /**
+     * Make networking call and parese JSON into notification object, also check if new version of application is available.
+     */
     private void makeJsonObjectRequest() {
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         StringRequest jsonObjReq = new StringRequest(Request.Method.GET,
@@ -81,7 +89,7 @@ public class NotificationServices extends Service {
                     String message = notification.getString("message");
                     String version = notification.getString("verzija");
 
-                    if (!mSharedPrefs.getString("version","").equalsIgnoreCase(version)) {
+                    if (!mSharedPrefs.getString("version", "").equalsIgnoreCase(version)) {
                         SharedPreferences.Editor editor = mSharedPrefs.edit();
                         editor.putBoolean("change", true);
                         editor.putString("version", version);
@@ -109,6 +117,12 @@ public class NotificationServices extends Service {
         });
         requestQueue.add(jsonObjReq);
     }
+
+    /**
+     * Create new notification
+     *
+     * @param notificationItem
+     */
 
     public void createNotification(NotificationItem notificationItem) {
         // Prepare intent which is triggered if the

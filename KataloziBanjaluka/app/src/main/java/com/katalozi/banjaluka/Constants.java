@@ -1,5 +1,8 @@
 package com.katalozi.banjaluka;
 
+/**
+ * Class which holds all constant string in application
+ */
 
 public class Constants {
 

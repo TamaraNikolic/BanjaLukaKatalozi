@@ -6,6 +6,12 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+/**
+ * ConnectivityReceiver is class that allows us to check device internet status
+ * We follow NetworkInfo constantly in background.
+ * extends BroadCastReciever
+ */
+
 public class ConnectivityReceiver extends BroadcastReceiver {
 
 
@@ -15,6 +21,7 @@ public class ConnectivityReceiver extends BroadcastReceiver {
         super();
     }
 
+    // set action if network state is changed
     @Override
     public void onReceive(Context context, Intent arg1) {
         ConnectivityManager cm = (ConnectivityManager) context
@@ -23,11 +30,15 @@ public class ConnectivityReceiver extends BroadcastReceiver {
         boolean isConnected = activeNetwork != null
                 && activeNetwork.isConnectedOrConnecting();
 
+        // set up that state is changed
         if (connectivityReceiverListener != null) {
             connectivityReceiverListener.onNetworkConnectionChanged(isConnected);
         }
     }
 
+    /**
+     * @return if connection is set up or no
+     */
     public static boolean isConnected() {
         ConnectivityManager
                 cm = (ConnectivityManager) MyApplication.getInstance().getApplicationContext()
@@ -37,7 +48,9 @@ public class ConnectivityReceiver extends BroadcastReceiver {
                 && activeNetwork.isConnectedOrConnecting();
     }
 
-
+    /**
+     * Method which will be activate if network state is changed
+     */
     public interface ConnectivityReceiverListener {
         void onNetworkConnectionChanged(boolean isConnected);
     }

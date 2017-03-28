@@ -1,9 +1,19 @@
 package com.katalozi.banjaluka;
 
+/**
+ * Class which hold notification and all details about it.
+ */
 
 public class NotificationItem {
+
     public String date, title, message;
 
+    /**
+     * making new NotificationItem using this constructor.
+     * @param date
+     * @param title
+     * @param message
+     */
     public NotificationItem(String date, String title, String message) {
         this.date = date;
         this.title = title;

@@ -28,6 +28,9 @@ public class SettingsActivity extends AppCompatActivity {
         addListeners();
     }
 
+    /**
+     * Method where all views components are initialised
+     */
     private void initComponents() {
         mSharedPrefs = getSharedPreferences(Constants.NAME, Context.MODE_PRIVATE);
 
@@ -36,6 +39,7 @@ public class SettingsActivity extends AppCompatActivity {
         month = (TextView) findViewById(R.id.month);
         never = (TextView) findViewById(R.id.never);
 
+        // set color of days - blue one if checked, others are black.
         if (mSharedPrefs.getLong("time", 0) == Constants.day) {
             day.setTextColor(getResources().getColor(R.color.colorPrimary));
         } else if (mSharedPrefs.getLong("time", 0) == Constants.week) {
@@ -48,6 +52,12 @@ public class SettingsActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Method set click listeners on views.
+     * Cliked item is colored blue, and others in black, also clicked values are saved in sharedprefs in miliseconds
+     * Also in listeners we stop running service and start new one with new value of time for norification
+     * Finish this activity after click.
+     */
     private void addListeners() {
         day.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,6 +112,11 @@ public class SettingsActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Set up time for notification based on time in miliseconds.
+     *
+     * @param time
+     */
     private void setUpTime(long time) {
         SharedPreferences.Editor editor = mSharedPrefs.edit();
         editor.putLong("time", time);
