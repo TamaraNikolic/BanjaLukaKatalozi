@@ -1,4 +1,4 @@
-package com.katalozi.banjaluka;
+package com.katalozi.banjaluka.data;
 
 /**
  * Class which hold notification and all details about it.

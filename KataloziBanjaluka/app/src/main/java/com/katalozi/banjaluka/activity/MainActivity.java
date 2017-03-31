@@ -1,4 +1,4 @@
-package com.katalozi.banjaluka;
+package com.katalozi.banjaluka.activity;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -20,6 +20,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.katalozi.banjaluka.reciever.ConnectivityReceiver;
+import com.katalozi.banjaluka.fragment.MessageFragment;
+import com.katalozi.banjaluka.MyApplication;
+import com.katalozi.banjaluka.service.NotificationServices;
+import com.katalozi.banjaluka.R;
+import com.katalozi.banjaluka.data.Constants;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -69,9 +75,6 @@ public class MainActivity extends AppCompatActivity implements ConnectivityRecei
         if (mSharedPrefs.getBoolean("change", false)) {
             MessageFragment messageFragment = new MessageFragment();
             messageFragment.show(getSupportFragmentManager(), "katalog");
-            SharedPreferences.Editor editor = mSharedPrefs.edit();
-            editor.putBoolean("change",false);
-            editor.apply();
         }
     }
 

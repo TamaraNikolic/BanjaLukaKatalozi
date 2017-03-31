@@ -44,14 +44,30 @@
         android:paddingLeft="16sp"
         android:paddingRight="16sp"
         android:paddingBottom="8sp"/>
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="8sp">
+    <TextView
+        android:id="@+id/textView_no"
+        android:textStyle="bold"
+        android:layout_weight="1"
+        android:textColor="@color/colorAccent"
+        android:text="Ne prikazivati obavestenje"
+        android:layout_gravity="right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8sp"/>
     <TextView
         android:id="@+id/textView_golePlay"
         android:textStyle="bold"
         android:textColor="@color/colorAccent"
+        android:layout_weight="1"
         android:text="Da, želim pratiti kataloge"
         android:layout_gravity="right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="8sp"/>
+</LinearLayout>
 </LinearLayout>

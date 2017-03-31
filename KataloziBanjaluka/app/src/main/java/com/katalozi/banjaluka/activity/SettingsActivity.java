@@ -1,4 +1,4 @@
-package com.katalozi.banjaluka;
+package com.katalozi.banjaluka.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +8,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+
+import com.katalozi.banjaluka.service.NotificationServices;
+import com.katalozi.banjaluka.R;
+import com.katalozi.banjaluka.data.Constants;
 
 public class SettingsActivity extends AppCompatActivity {
 

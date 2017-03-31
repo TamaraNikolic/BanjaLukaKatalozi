@@ -1,10 +1,12 @@
-package com.katalozi.banjaluka;
+package com.katalozi.banjaluka.reciever;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+
+import com.katalozi.banjaluka.MyApplication;
 
 /**
  * ConnectivityReceiver is class that allows us to check device internet status

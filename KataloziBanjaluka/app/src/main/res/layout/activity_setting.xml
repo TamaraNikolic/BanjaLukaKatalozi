@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.katalozi.banjaluka.SettingsActivity">
+    tools:context="com.katalozi.banjaluka.activity.SettingsActivity">
 
     <TextView
         android:layout_marginTop="10dp"

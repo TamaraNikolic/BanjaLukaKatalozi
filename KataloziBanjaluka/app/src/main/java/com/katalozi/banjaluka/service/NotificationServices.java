@@ -1,4 +1,4 @@
-package com.katalozi.banjaluka;
+package com.katalozi.banjaluka.service;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -17,6 +17,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.katalozi.banjaluka.R;
+import com.katalozi.banjaluka.activity.MainActivity;
+import com.katalozi.banjaluka.data.Constants;
+import com.katalozi.banjaluka.data.NotificationItem;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -74,6 +78,7 @@ public class NotificationServices extends Service {
     /**
      * Make networking call and parese JSON into notification object, also check if new version of application is available.
      */
+
     private void makeNotificationObjectRequest() {
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         StringRequest jsonObjReq = new StringRequest(Request.Method.GET,

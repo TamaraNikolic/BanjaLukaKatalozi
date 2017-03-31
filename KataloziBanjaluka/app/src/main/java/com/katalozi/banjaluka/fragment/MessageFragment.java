@@ -1,8 +1,8 @@
-package com.katalozi.banjaluka;
+package com.katalozi.banjaluka.fragment;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,16 +13,21 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.katalozi.banjaluka.R;
+import com.katalozi.banjaluka.data.Constants;
+
 /**
  * Fragment for show alert to user when version is changed
  */
 
 public class MessageFragment extends DialogFragment {
+    private SharedPreferences mSharedPrefs;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_fragment_layout, container, false);
+        mSharedPrefs = getActivity().getSharedPreferences(Constants.NAME, Context.MODE_PRIVATE);
 
         // set up all view components and their listeners.
         TextView mTvFacebook = (TextView) view.findViewById(R.id.textView_facebook);
@@ -62,6 +67,21 @@ public class MessageFragment extends DialogFragment {
             public void onClick(View view) {
                 // open URL on Google Play and close dialog
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.GOOGLE_PLAY)));
+                SharedPreferences.Editor editor = mSharedPrefs.edit();
+                editor.putBoolean("change", false);
+                editor.apply();
+                dismiss();
+            }
+        });
+
+        TextView mTvNo = (TextView) view.findViewById(R.id.textView_no);
+        mTvNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // no save
+                SharedPreferences.Editor editor = mSharedPrefs.edit();
+                editor.putBoolean("change", false);
+                editor.apply();
                 dismiss();
             }
         });
