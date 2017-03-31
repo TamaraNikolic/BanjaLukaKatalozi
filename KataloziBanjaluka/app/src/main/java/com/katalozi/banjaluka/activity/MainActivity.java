@@ -5,6 +5,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -38,6 +41,9 @@ public class MainActivity extends AppCompatActivity implements ConnectivityRecei
     private WebView mWebVIew;
     private ImageView mIvNotificationSettings;
     private SharedPreferences mSharedPrefs;
+    private Handler handler;
+    private Runnable runnable;
+    long delay = 30000; // milliseconds
 
     // spplication will working if orientation of screen is changed
     @Override
@@ -106,13 +112,30 @@ public class MainActivity extends AppCompatActivity implements ConnectivityRecei
             }
 
             public void onPageFinished(WebView view, String url) {
-
+                handler.removeCallbacks(runnable);
             }
 
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
 
             }
+
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+                handler = new Handler();
+                runnable = new Runnable() {
+                    public void run() {
+                        handler.postDelayed(this, delay);
+                        Toast.makeText(getApplicationContext(),"Brzina Vaseg interneta nije odgovarajuca za koriscenje ove " +
+                                "aplikacije",Toast.LENGTH_SHORT).show();
+                    }
+                };
+
+                handler = new Handler();
+                handler.postDelayed(runnable, delay);
+            }
         });
+
         mWebVIew.loadUrl(Constants.BASE_URL);
 
     }
@@ -157,6 +180,7 @@ public class MainActivity extends AppCompatActivity implements ConnectivityRecei
         } else {
             new AlertDialog.Builder(this)
                     .setTitle("Upozorenje:")
+                    .setCancelable(false)
                     .setIcon(R.mipmap.ikonica)
                     .setMessage("Vaš telefon trenutno nije povezan na Internet. Da biste koristili ovu aplikaciju potrebeno je da budete povezani na Internet.")
                     .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
