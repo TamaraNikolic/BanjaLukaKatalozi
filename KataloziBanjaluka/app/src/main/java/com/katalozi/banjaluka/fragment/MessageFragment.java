@@ -55,7 +55,7 @@ public class MessageFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
                 // new call with phone number for more info
-                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "Your Phone_number"));
+                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + Constants.PHONE));
                 startActivity(intent);
                 dismiss();
             }
@@ -99,7 +99,7 @@ public class MessageFragment extends DialogFragment {
 
         try {
             context.getPackageManager().getPackageInfo("com.facebook.katana", 0);
-            return new Intent(Intent.ACTION_VIEW, Uri.parse("fb://page/tamara.nikolic.524"));
+            return new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.FACEBOOK));
         } catch (Exception e) {
             return new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.FACEBOOK));
         }
