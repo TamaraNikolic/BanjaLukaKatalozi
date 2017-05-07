@@ -102,6 +102,9 @@ public class MainActivity extends AppCompatActivity implements ConnectivityRecei
     private void setUpWebView() {
         WebSettings settings = mWebVIew.getSettings();
         settings.setJavaScriptEnabled(true);
+        settings.setSupportZoom(true);
+        settings.setDisplayZoomControls(true);
+        settings.setBuiltInZoomControls(true);
         mWebVIew.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
 
 
@@ -128,10 +131,9 @@ public class MainActivity extends AppCompatActivity implements ConnectivityRecei
                         handler.postDelayed(this, delay);
                         Toast.makeText(getApplicationContext(),"Brzina Vaseg interneta nije odgovarajuca za koriscenje ove " +
                                 "aplikacije",Toast.LENGTH_SHORT).show();
+                        handler.removeCallbacks(this);
                     }
                 };
-
-                handler = new Handler();
                 handler.postDelayed(runnable, delay);
             }
         });
@@ -202,7 +204,12 @@ public class MainActivity extends AppCompatActivity implements ConnectivityRecei
 
     @Override
     public void onNetworkConnectionChanged(boolean isConnected) {
-        showAlert(isConnected);
+        try {
+            showAlert(isConnected);
+        } catch (Exception e) {
+
+        }
+
     }
     /**
      * Check if new version of application is available.
@@ -236,5 +243,11 @@ public class MainActivity extends AppCompatActivity implements ConnectivityRecei
             }
         });
         requestQueue.add(jsonObjReq);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        handler.removeCallbacks(runnable);
     }
 }
