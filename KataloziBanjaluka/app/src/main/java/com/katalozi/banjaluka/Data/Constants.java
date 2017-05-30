@@ -14,6 +14,10 @@ public class Constants {
     public static final String PHONE = "051 962 405";
     public static final String GOOGLE_PLAY = "https://play.google.com/store/apps/details?id=com.katalozi.banjaluka";
 
+    public static final int HOUR = 18;
+    public static final int MINUTE = 0;
+    public static final int SECOND = 0;
+
     public static final long day = 86400000;
     public static final long week = day * 7;
     public static final long month = week * 4;

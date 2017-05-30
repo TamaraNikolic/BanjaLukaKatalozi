@@ -1,7 +1,5 @@
 package com.katalozi.banjaluka.activity;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -49,9 +47,7 @@ public class MainActivity extends AppCompatActivity implements ConnectivityRecei
     private Handler handler;
     private Runnable runnable;
     long delay = 30000; // milliseconds
-    public AlarmManager alarmManager;
-    Intent alarmIntent;
-    PendingIntent pendingIntent;
+    private AlarmReciever mAlarm;
 
 
     // spplication will working if orientation of screen is changed
@@ -71,12 +67,12 @@ public class MainActivity extends AppCompatActivity implements ConnectivityRecei
         addListeners();
         setUpWebView();
 
-        setAlarm(5000);
+
+
 
         // if application is running for the fist time or do not have set time for notification set it on daily.
         if (mSharedPrefs.getLong("time", 0) == 0) {
             setUpTime(Constants.day);
-           // setAlarm();
         }
 
     }
@@ -258,22 +254,8 @@ public class MainActivity extends AppCompatActivity implements ConnectivityRecei
     }
 
     public void setAlarm(long miliseconds){
-
-        alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        alarmIntent = new Intent(MainActivity.this, AlarmReciever.class);
-        pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, alarmIntent, 0);
-
-        Calendar alarmStartTime = Calendar.getInstance();
-        alarmStartTime.set(Calendar.HOUR, 16); // At the hour you wanna fire
-        alarmStartTime.set(Calendar.MINUTE, 00); // Particular minute
-        alarmStartTime.set(Calendar.SECOND, 0);
-
-        //  alarmStartTime.add(Calendar.MINUTE, 2);
-        alarmManager.setRepeating(
-                AlarmManager.RTC_WAKEUP, alarmStartTime.getTimeInMillis(), miliseconds, pendingIntent);
-
-        //Log.i(TAG,"Alarms set every two minutes.");
-
+        mAlarm = new AlarmReciever();
+        mAlarm.setRecordingPhoneNotification(getApplicationContext(), miliseconds);
     }
 
 

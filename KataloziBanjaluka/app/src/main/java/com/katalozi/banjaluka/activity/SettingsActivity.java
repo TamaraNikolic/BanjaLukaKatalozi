@@ -22,14 +22,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private TextView day, week, month, never;
     private SharedPreferences mSharedPrefs;
-    public AlarmManager alarmManager;
-    Intent alarmIntent;
-    PendingIntent pendingIntent;
-
-    @Override
-    public void onConfigurationChanged(Configuration config) {
-
-    }
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +51,7 @@ public class SettingsActivity extends AppCompatActivity {
             week.setTextColor(getResources().getColor(R.color.colorPrimary));
         } else if (mSharedPrefs.getLong("time", 0) == Constants.month) {
             month.setTextColor(getResources().getColor(R.color.colorPrimary));
-        } else if (mSharedPrefs.getLong("time", 0) == 1) {
+        } else {
             never.setTextColor(getResources().getColor(R.color.colorPrimary));
         }
 
@@ -107,7 +100,7 @@ public class SettingsActivity extends AppCompatActivity {
         never.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setUpTime(1);
+                cancelAlarm();
                 never.setTextColor(getResources().getColor(R.color.colorPrimary));
                 week.setTextColor(getResources().getColor(R.color.black));
                 month.setTextColor(getResources().getColor(R.color.black));
@@ -126,24 +119,18 @@ public class SettingsActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = mSharedPrefs.edit();
         editor.putLong("time", time);
         editor.apply();
-        setAlarm(5000);
+        setAlarm(time);
     }
 
-    public void setAlarm(long miliseconds){
-        alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-
-        alarmIntent = new Intent(SettingsActivity.this, AlarmReciever.class);
-        pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        Calendar alarmStartTime = Calendar.getInstance();
-        alarmStartTime.set(Calendar.HOUR, 14); // At the hour you wanna fire
-        alarmStartTime.set(Calendar.MINUTE, 54); // Particular minute
-        alarmStartTime.set(Calendar.SECOND, 0);
-
-        //  alarmStartTime.add(Calendar.MINUTE, 2);
-        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, alarmStartTime.getTimeInMillis(), miliseconds, pendingIntent);
-        //Log.i(TAG,"Alarms set every two minutes.");
-
+    private void setAlarm(long miliseconds){
+        AlarmReciever alarm = new AlarmReciever();
+        alarm.setRecordingPhoneNotification(getApplicationContext(), miliseconds);
     }
-
+    private void cancelAlarm() {
+        SharedPreferences.Editor editor = mSharedPrefs.edit();
+        editor.putLong("time", 1);
+        editor.apply();
+        AlarmReciever alarm = new AlarmReciever();
+        alarm.canceRecordingPhonelNotification(getApplicationContext());
+    }
 }
