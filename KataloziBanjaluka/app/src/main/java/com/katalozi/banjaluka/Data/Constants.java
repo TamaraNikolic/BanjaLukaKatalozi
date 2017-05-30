@@ -15,6 +15,6 @@ public class Constants {
     public static final String GOOGLE_PLAY = "https://play.google.com/store/apps/details?id=com.katalozi.banjaluka";
 
     public static final long day = 86400000;
-    public static final long week = 604800000;
+    public static final long week = day * 7;
     public static final long month = week * 4;
 }

@@ -25,14 +25,14 @@ import com.katalozi.banjaluka.data.NotificationItem;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Random;
+
 /**
  * Service which make notifications based on JSON
  */
 
 public class NotificationServices extends Service {
 
-    private Handler handler;
-    private Runnable runnable;
     long delay; // milliseconds
     private SharedPreferences mSharedPrefs;
 
@@ -53,28 +53,10 @@ public class NotificationServices extends Service {
         mSharedPrefs = getSharedPreferences(Constants.NAME, Context.MODE_PRIVATE);
         delay = mSharedPrefs.getLong("time", 0);
         //make new thread and constantly make json object, deley is set by user (day,week,month or never)
-        handler = new Handler();
-        runnable = new Runnable() {
-            public void run() {
-                makeNotificationObjectRequest();
-                handler.postDelayed(this, delay);
-            }
-        };
-
-        handler = new Handler();
-        handler.postDelayed(runnable, delay);
         return START_STICKY;
     }
 
     // if service is stoped stop running thread
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (handler != null) {
-            handler.removeCallbacks(runnable);
-        }
-    }
-
     /**
      * Make networking call and parese JSON into notification object, also check if new version of application is available.
      */

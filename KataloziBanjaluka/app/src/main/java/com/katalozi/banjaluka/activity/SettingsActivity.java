@@ -1,5 +1,7 @@
 package com.katalozi.banjaluka.activity;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,14 +11,20 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.katalozi.banjaluka.reciever.AlarmReciever;
 import com.katalozi.banjaluka.service.NotificationServices;
 import com.katalozi.banjaluka.R;
 import com.katalozi.banjaluka.data.Constants;
+
+import java.util.Calendar;
 
 public class SettingsActivity extends AppCompatActivity {
 
     private TextView day, week, month, never;
     private SharedPreferences mSharedPrefs;
+    public AlarmManager alarmManager;
+    Intent alarmIntent;
+    PendingIntent pendingIntent;
 
     @Override
     public void onConfigurationChanged(Configuration config) {
@@ -71,8 +79,6 @@ public class SettingsActivity extends AppCompatActivity {
                 week.setTextColor(getResources().getColor(R.color.black));
                 month.setTextColor(getResources().getColor(R.color.black));
                 never.setTextColor(getResources().getColor(R.color.black));
-                stopService(new Intent(getBaseContext(), NotificationServices.class));
-                startService(new Intent(getBaseContext(), NotificationServices.class));
                 finish();
             }
         });
@@ -84,8 +90,6 @@ public class SettingsActivity extends AppCompatActivity {
                 day.setTextColor(getResources().getColor(R.color.black));
                 month.setTextColor(getResources().getColor(R.color.black));
                 never.setTextColor(getResources().getColor(R.color.black));
-                stopService(new Intent(getBaseContext(), NotificationServices.class));
-                startService(new Intent(getBaseContext(), NotificationServices.class));
                 finish();
             }
         });
@@ -97,8 +101,6 @@ public class SettingsActivity extends AppCompatActivity {
                 week.setTextColor(getResources().getColor(R.color.black));
                 day.setTextColor(getResources().getColor(R.color.black));
                 never.setTextColor(getResources().getColor(R.color.black));
-                stopService(new Intent(getBaseContext(), NotificationServices.class));
-                startService(new Intent(getBaseContext(), NotificationServices.class));
                 finish();
             }
         });
@@ -110,7 +112,6 @@ public class SettingsActivity extends AppCompatActivity {
                 week.setTextColor(getResources().getColor(R.color.black));
                 month.setTextColor(getResources().getColor(R.color.black));
                 day.setTextColor(getResources().getColor(R.color.black));
-                stopService(new Intent(getBaseContext(), NotificationServices.class));
                 finish();
             }
         });
@@ -125,5 +126,24 @@ public class SettingsActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = mSharedPrefs.edit();
         editor.putLong("time", time);
         editor.apply();
+        setAlarm(5000);
     }
+
+    public void setAlarm(long miliseconds){
+        alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+        alarmIntent = new Intent(SettingsActivity.this, AlarmReciever.class);
+        pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Calendar alarmStartTime = Calendar.getInstance();
+        alarmStartTime.set(Calendar.HOUR, 14); // At the hour you wanna fire
+        alarmStartTime.set(Calendar.MINUTE, 54); // Particular minute
+        alarmStartTime.set(Calendar.SECOND, 0);
+
+        //  alarmStartTime.add(Calendar.MINUTE, 2);
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, alarmStartTime.getTimeInMillis(), miliseconds, pendingIntent);
+        //Log.i(TAG,"Alarms set every two minutes.");
+
+    }
+
 }
