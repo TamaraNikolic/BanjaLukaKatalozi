@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity implements ConnectivityRecei
         SharedPreferences.Editor editor = mSharedPrefs.edit();
         editor.putLong("time", time);
         editor.apply();
-        setAlarm(5000);
+        setAlarm(time);
     }
 
     /**

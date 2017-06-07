@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.PowerManager;
+import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -75,6 +76,7 @@ public class AlarmReciever extends BroadcastReceiver {
                     createNotification(notificationItem, context);
 
                     if (!notificationItem.date.equalsIgnoreCase(mSharedPrefs.getString("date", ""))) {
+                        Log.e("tamara","date "+notificationItem.date);
                         createNotification(notificationItem, context);
                     }
 
