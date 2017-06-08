@@ -90,7 +90,7 @@ public class NotificationServices extends Service {
                     }
 
                     SharedPreferences.Editor editor = mSharedPrefs.edit();
-                    editor.putString("date", date);
+                    editor.putString("date", notificationItem.date);
                     editor.apply();
 
                 } catch (JSONException e) {
