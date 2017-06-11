@@ -51,15 +51,11 @@ public class MessageFragment extends DialogFragment {
         });
 
         TextView mTvPhone = (TextView) view.findViewById(R.id.textView_phone);
-        mTvPhone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // new call with phone number for more info
-                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + Constants.PHONE));
-                startActivity(intent);
-                dismiss();
-            }
-        });
+//        mTvPhone.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//            }
+//        });
 
         TextView mTvGooglePlay = (TextView) view.findViewById(R.id.textView_golePlay);
         mTvGooglePlay.setOnClickListener(new View.OnClickListener() {

@@ -43,7 +43,8 @@
         android:text=" Telefona: ​051 962 405"
         android:paddingLeft="16sp"
         android:paddingRight="16sp"
-        android:paddingBottom="8sp"/>
+        android:paddingBottom="8sp"
+        android:visibility="gone"/>
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
