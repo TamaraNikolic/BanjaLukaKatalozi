@@ -38,14 +38,9 @@ public class AlarmReciever extends BroadcastReceiver {
         // TODO: This method is called when the BroadcastReceiver is receiving
         // an Intent broadcast.
 
-        PowerManager mPowerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-        PowerManager.WakeLock mWakeLock = mPowerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG);
-
-        mWakeLock.acquire();
 
         makeNotificationObjectRequest(context);
 
-        mWakeLock.release();
     }
 
     private void makeNotificationObjectRequest(final Context context) {
@@ -73,10 +68,8 @@ public class AlarmReciever extends BroadcastReceiver {
                     }
 
                     final NotificationItem notificationItem = new NotificationItem(date, title, message);
-                    createNotification(notificationItem, context);
 
                     if (!notificationItem.date.equalsIgnoreCase(mSharedPrefs.getString("date", ""))) {
-                        Log.e("tamara","date "+notificationItem.date);
                         createNotification(notificationItem, context);
                     }
 
