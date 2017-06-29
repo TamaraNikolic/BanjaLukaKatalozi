@@ -124,6 +124,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void setAlarm(long miliseconds){
         AlarmReciever alarm = new AlarmReciever();
+        alarm.canceRecordingPhonelNotification(getApplicationContext());
         alarm.setRecordingPhoneNotification(getApplicationContext(), miliseconds);
     }
     private void cancelAlarm() {
