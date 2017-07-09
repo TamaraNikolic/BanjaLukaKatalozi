@@ -35,7 +35,9 @@
 
         <receiver
             android:name=".reciever.ConnectivityReceiver"
-            android:enabled="true">
+            android:enabled="true"
+            android:exported="true"
+            android:process=":remote">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
@@ -43,9 +45,6 @@
         <receiver
             android:name=".reciever.AlarmReciever"
             android:enabled="true">
-            <intent-filter>
-                <action android:name="android.intent.action.DATE_CHANGED" />
-            </intent-filter>
         </receiver>
     </application>
 

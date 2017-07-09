@@ -1,5 +1,7 @@
 package com.katalozi.banjaluka.data;
 
+import android.app.AlarmManager;
+
 /**
  * Class which holds all constant string in application
  */
@@ -18,7 +20,7 @@ public class Constants {
     public static final int MINUTE = 0;
     public static final int SECOND = 0;
 
-    public static final long day = 86400000;
+    public static final long day = AlarmManager.INTERVAL_DAY;
     public static final long week = day * 7;
     public static final long month = week * 4;
 }
